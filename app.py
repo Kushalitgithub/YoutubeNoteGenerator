@@ -1,6 +1,6 @@
 import streamlit as st
 from summarizer import get_transcript, generate_notes, LANGUAGES
-from anki_export import export_pdf
+from exporter import export_pdf
 from flashcard import parse_flashcards, format_flashcards_text
 from anki_export import create_anki_deck
 
@@ -9,7 +9,6 @@ st.set_page_config(page_title="YT Study Notes", layout="centered")
 st.title("YouTube Study Notes Generator")
 st.caption("Paste any YouTube lecture and get structured notes, flashcards, or an Anki deck.")
 
-
 url = st.text_input("YouTube URL", placeholder="https://www.youtube.com/watch?v=...")
 
 col1, col2 = st.columns(2)
@@ -17,7 +16,8 @@ col1, col2 = st.columns(2)
 with col1:
     subject = st.selectbox(
         "Subject",
-        ["General", "Computer Science", "Mathematics", "Physics", "Biology", "History", "Economics"]
+        ["General", "Computer Science", "Mathematics",
+         "Physics", "Biology", "History", "Economics"]
     )
 
 with col2:
@@ -54,7 +54,7 @@ if generate:
 
         st.divider()
 
-        
+
         if mode == "flashcards":
             st.subheader("Flashcards")
             cards = parse_flashcards(notes)
@@ -107,7 +107,7 @@ if generate:
                             use_container_width=True
                         )
 
-        
+
         else:
             st.subheader("Your Study Notes")
             st.markdown(notes)
@@ -123,4 +123,18 @@ if generate:
                     mime="text/plain",
                     use_container_width=True
                 )
+        try:
+            with col2:
+                pdf_file = export_pdf("Study Notes", notes)
+                with open(pdf_file, "rb") as f:
+                    st.download_button(
+                        "Download PDF",
+                        data=f,
+                        file_name="study_notes.pdf",
+                        mime="application/pdf",
+                        use_container_width=True
+                    )
 
+        except Exception as e:
+            st.error(f"Could not generate PDF: {e}")
+            st.info("Try downloading the TXT version instead.")
