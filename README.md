@@ -119,10 +119,10 @@ langdetect
 
 ## Author
 
-Kushal
-BCS AI Student at Taylors University
-GitHub: https://github.com/Kushalitgithub
-LinkedIn: https://www.linkedin.com/in/kushal-bhattarai-960819385/
+Kushal <br>
+BCS AI Student at Taylors University <br>
+GitHub: https://github.com/Kushalitgithub<br>
+LinkedIn: https://www.linkedin.com/in/kushal-bhattarai-960819385/<br>
 
 ---
 
